@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Todo = ({ todo, setCompleted }) => {
+export const Todo = ({ todo, setCompleted, deleteTodo }) => {
   return (
     <>
       <div>
@@ -17,6 +17,7 @@ export const Todo = ({ todo, setCompleted }) => {
         >
           {todo.message}
         </span>
+        <button onClick={() => deleteTodo(todo)}>X</button>
       </div>
     </>
   );
