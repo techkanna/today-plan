@@ -1,11 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { TodoContext } from '../globalStates/todoContext';
 import { Todo } from './Todo';
 const URL = 'https://todo-server-xi.now.sh/api/todo';
 export const Todos = () => {
-  const [todos, setTodos] = useContext(TodoContext);
-  const [newTodo, setNewTodo] = useState('');
-
+  const { todos, setTodos } = useContext(TodoContext);
   const setCompleted = async (todo) => {
     const id = todo._id;
     const copy = [...todos];
@@ -25,22 +23,6 @@ export const Todos = () => {
       }
     }
     setTodos(copy);
-  };
-
-  const submitHanler = async (e) => {
-    e.preventDefault();
-
-    const res = await fetch(URL, {
-      method: 'Post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ message: newTodo }),
-    });
-    const data = await res.json();
-    const copy = [...todos, data];
-    setTodos(copy);
-    setNewTodo('');
   };
 
   const deleteTodo = async (todo) => {
@@ -66,6 +48,23 @@ export const Todos = () => {
     setTodos(copy);
   };
   return (
+    <div className="todos">
+      <Incompleted
+        todos={todos.filter((todo) => !todo.completed)}
+        setCompleted={setCompleted}
+        deleteTodo={deleteTodo}
+      />
+      <Completed
+        todos={todos.filter((todo) => todo.completed)}
+        setCompleted={setCompleted}
+        deleteTodo={deleteTodo}
+      />
+    </div>
+  );
+};
+
+const Completed = ({ todos, setCompleted, deleteTodo }) => {
+  return (
     <>
       {todos.map((todo, i) => {
         return (
@@ -77,15 +76,23 @@ export const Todos = () => {
           />
         );
       })}
-      <form onSubmit={submitHanler}>
-        <input
-          type="text"
-          placeholder="Add Todo..."
-          value={newTodo}
-          onChange={(e) => setNewTodo(e.target.value)}
-        />
-        <input type="submit" value="Add" />
-      </form>
+    </>
+  );
+};
+
+const Incompleted = ({ todos, setCompleted, deleteTodo }) => {
+  return (
+    <>
+      {todos.map((todo, i) => {
+        return (
+          <Todo
+            key={i}
+            todo={todo}
+            setCompleted={setCompleted}
+            deleteTodo={deleteTodo}
+          />
+        );
+      })}
     </>
   );
 };

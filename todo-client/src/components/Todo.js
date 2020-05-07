@@ -1,24 +1,28 @@
 import React from 'react';
+import { DeleteSvg } from './DeleteSvg';
 
 export const Todo = ({ todo, setCompleted, deleteTodo }) => {
   return (
-    <>
-      <div>
+    <div className="todo">
+      <div className="left-wrapper">
         <input
           type="checkbox"
           onChange={() => setCompleted(todo)}
           name="todo"
-          id="todo"
+          className="todo-check-box"
           checked={todo.completed}
         />
         <span
+          className="msg"
           style={{ textDecoration: todo.completed ? 'line-through' : '' }}
           onClick={() => setCompleted(todo)}
         >
           {todo.message}
         </span>
-        <button onClick={() => deleteTodo(todo)}>X</button>
       </div>
-    </>
+      <button className="del-btn" onClick={() => deleteTodo(todo)}>
+        <DeleteSvg />
+      </button>
+    </div>
   );
 };
