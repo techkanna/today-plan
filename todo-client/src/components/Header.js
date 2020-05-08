@@ -1,18 +1,43 @@
-import React from 'react';
-
+import React, { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
+import { TodoContext } from '../globalStates/todoContext';
 let date = new Date().toDateString();
 date = date.slice(0, date.length - 5);
 date = date.slice(0, 3) + ', ' + date.slice(4, date.length);
 export const Header = () => {
+  const { activeTasks } = useContext(TodoContext);
   return (
     <header>
       <div className="logo">
         <h4>{date}</h4>
-        <span>3 Active Tasks</span>
+        <span>{activeTasks} Active Tasks</span>
       </div>
       <div className="links">
-        <h4>Incomplete Tasks</h4>
-        <h4>Completed Tasks</h4>
+        <h4>
+          <NavLink
+            className="link"
+            to="/"
+            exact
+            activeStyle={{
+              fontWeight: 'bold',
+              color: '#fff',
+            }}
+          >
+            Incomplete Tasks
+          </NavLink>
+        </h4>
+        <h4>
+          <NavLink
+            className="link"
+            to="/completed"
+            activeStyle={{
+              fontWeight: 'bold',
+              color: '#fff',
+            }}
+          >
+            Completed Tasks
+          </NavLink>
+        </h4>
       </div>
     </header>
   );

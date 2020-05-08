@@ -55,9 +55,11 @@ header {
   display: flex;
 }
 
-.links h4 {
+.links h4 .link {
   color: rgba(255, 255, 255, 0.473);
+  text-decoration: none;
 }
+
 .links h4:nth-child(1) {
   padding: 0 3rem 0 0;
 }

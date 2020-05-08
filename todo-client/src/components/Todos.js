@@ -1,9 +1,12 @@
 import React, { useContext } from 'react';
 import { TodoContext } from '../globalStates/todoContext';
 import { Todo } from './Todo';
+import { Switch, Route } from 'react-router-dom';
 const URL = 'https://todo-server-xi.now.sh/api/todo';
+
 export const Todos = () => {
-  const { todos, setTodos } = useContext(TodoContext);
+  const { todos, setTodos, setactiveTasks } = useContext(TodoContext);
+  setactiveTasks(todos.filter((todo) => !todo.completed).length);
   const setCompleted = async (todo) => {
     const id = todo._id;
     const copy = [...todos];
@@ -49,16 +52,22 @@ export const Todos = () => {
   };
   return (
     <div className="todos">
-      <Incompleted
-        todos={todos.filter((todo) => !todo.completed)}
-        setCompleted={setCompleted}
-        deleteTodo={deleteTodo}
-      />
-      <Completed
-        todos={todos.filter((todo) => todo.completed)}
-        setCompleted={setCompleted}
-        deleteTodo={deleteTodo}
-      />
+      <Switch>
+        <Route exact path="/">
+          <Incompleted
+            todos={todos.filter((todo) => !todo.completed)}
+            setCompleted={setCompleted}
+            deleteTodo={deleteTodo}
+          />
+        </Route>
+        <Route path="/completed">
+          <Completed
+            todos={todos.filter((todo) => todo.completed)}
+            setCompleted={setCompleted}
+            deleteTodo={deleteTodo}
+          />
+        </Route>
+      </Switch>
     </div>
   );
 };
