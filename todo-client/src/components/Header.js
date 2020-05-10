@@ -8,7 +8,7 @@ export const Header = () => {
   const { activeTasks } = useContext(TodoContext);
   return (
     <header>
-      <div className="logo">
+      <div className="logo-text">
         <h4>{date}</h4>
         <span>{activeTasks} Active Tasks</span>
       </div>

@@ -5,6 +5,8 @@ export const TodoContext = createContext();
 export const TodoProvider = (props) => {
   const [todos, setTodos] = useState([]);
   const [activeTasks, setactiveTasks] = useState(0);
+  const [opened, setOpened] = useState(false);
+  const [active, setActive] = useState({});
 
   useEffect(() => {
     const getData = async () => {
@@ -17,7 +19,16 @@ export const TodoProvider = (props) => {
   }, []);
   return (
     <TodoContext.Provider
-      value={{ todos, setTodos, activeTasks, setactiveTasks }}
+      value={{
+        todos,
+        setTodos,
+        activeTasks,
+        setactiveTasks,
+        opened,
+        setOpened,
+        active,
+        setActive,
+      }}
     >
       {props.children}
     </TodoContext.Provider>

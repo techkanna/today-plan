@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { TodoContext } from '../globalStates/todoContext';
 import { DeleteSvg } from './DeleteSvg';
 
 export const Todo = ({ todo, setCompleted, deleteTodo }) => {
+  const { setOpened, setActive } = useContext(TodoContext);
   return (
     <div className="todo">
       <div className="left-wrapper">
@@ -15,7 +17,10 @@ export const Todo = ({ todo, setCompleted, deleteTodo }) => {
         <span
           className="msg"
           style={{ textDecoration: todo.completed ? 'line-through' : '' }}
-          onClick={() => setCompleted(todo)}
+          onClick={() => {
+            setOpened(true);
+            setActive(todo);
+          }}
         >
           {todo.message}
         </span>

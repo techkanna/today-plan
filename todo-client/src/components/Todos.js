@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { TodoContext } from '../globalStates/todoContext';
 import { Todo } from './Todo';
 import { Switch, Route } from 'react-router-dom';
@@ -6,7 +6,10 @@ const URL = 'https://todo-server-xi.now.sh/api/todo';
 
 export const Todos = () => {
   const { todos, setTodos, setactiveTasks } = useContext(TodoContext);
-  setactiveTasks(todos.filter((todo) => !todo.completed).length);
+  useEffect(() => {
+    setactiveTasks(todos.filter((todo) => !todo.completed).length);
+  });
+
   const setCompleted = async (todo) => {
     const id = todo._id;
     const copy = [...todos];
@@ -30,26 +33,17 @@ export const Todos = () => {
 
   const deleteTodo = async (todo) => {
     const id = todo._id;
-    const copy = [...todos];
-    let index;
+    let copy = [...todos];
     const res = await fetch(`https://todo-server-xi.now.sh/api/todo/${id}`, {
       method: 'DELETE',
     });
     const data = await res.json();
     if (data.deleted) {
-      for (let i = 0; i < copy.length; i++) {
-        const todo = todos[i];
-        if (todo._id === id) {
-          index = i;
-          break;
-        }
-      }
+      copy = copy.filter((todo) => todo._id !== id);
+      setTodos(copy);
     }
-    if (index) {
-      copy.splice(index, 1);
-    }
-    setTodos(copy);
   };
+
   return (
     <div className="todos">
       <Switch>

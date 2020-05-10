@@ -22,13 +22,25 @@ Router.route('/')
   })
   .patch((req, res) => {
     const id = req.body._id;
+    const msg = req.body.message;
 
-    TodoModel.findById(id, (err, todo) => {
-      if (err) return err;
-      todo.completed = !todo.completed;
-      todo.save();
-      res.json({ updated: true, data: todo });
-    });
+    if (!msg) {
+      TodoModel.findById(id, (err, todo) => {
+        if (err) return err;
+        todo.completed = !todo.completed;
+        todo.save();
+        res.json({ updated: true, data: todo });
+      });
+    }
+
+    if (msg) {
+      TodoModel.findById(id, (err, todo) => {
+        if (err) return err;
+        todo.message = msg;
+        todo.save();
+        res.json({ updated: true, data: todo });
+      });
+    }
   });
 
 Router.delete('/:id/', (req, res) => {
