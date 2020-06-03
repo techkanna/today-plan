@@ -1,37 +1,32 @@
 const express = require('express');
 const morgan = require('morgan');
-const app = express();
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
+const helmet = require('helmet');
 const cors = require('cors');
 
-dotenv.config();
+const connectDb = require('./middleware/connectDb');
+
+// app initialization
+const app = express();
+
+// middlewares
+app.use(helmet());
 app.use(morgan('tiny'));
 app.use(express.json());
 app.use(cors());
 
 // db connection
-mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('db connected'));
+connectDb();
 
-// todos route 🧾.
+// routes 🧾.
 app.use('/api/todo/', require('./router/todos'));
+app.use('/api/user/', require('./router/user'));
+app.use('/api/auth/', require('./router/auth'));
 
-// Home route 🏠.
-app.get('/', (_, res) => {
-  res.json({ msg: 'Welcome Home 🏠🤠' });
-});
-
-// not found route [404]
-app.use('/:address', function (req, res) {
-  res
-    .status(404)
-    .json({ msg: `Sorry can't find that!, ${req.params.address}...😢` });
-});
+// Home and NotFound routes
+app.use('/', require('./middleware/home'));
 
 const PORT = process.env.PORT || 1212;
-app.listen(PORT, () => console.log(`server running on ${PORT}`));
+
+app.listen(PORT, () =>
+  console.log(`server running on http://localhost:${PORT}/`)
+);
