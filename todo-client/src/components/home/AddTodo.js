@@ -1,9 +1,11 @@
 import React, { useContext, useState } from 'react';
-import { TodoContext } from '../globalStates/todoContext';
-const URL = 'https://todo-server-xi.now.sh/api/todo';
+import { TodoContext } from '../../globalStates/todoContext';
+
 export const AddTodo = () => {
-  const { todos, setTodos } = useContext(TodoContext);
+  const { URL, todos, setTodos } = useContext(TodoContext);
+
   const [newTodo, setNewTodo] = useState('');
+
   const submitHanler = async (e) => {
     e.preventDefault();
 
@@ -15,8 +17,10 @@ export const AddTodo = () => {
       body: JSON.stringify({ message: newTodo }),
     });
     const data = await res.json();
-    const copy = [...todos, data];
-    setTodos(copy);
+    if (data.message) {
+      const copy = [...todos, data];
+      setTodos(copy);
+    }
     setNewTodo('');
   };
   return (

@@ -1,33 +1,31 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useState, createContext } from 'react';
 
 export const TodoContext = createContext();
 
+const Urls = {
+  local: 'http://localhost:1313/api/todo',
+  remote: 'https://todo-server-xi.now.sh/api/todo',
+};
+
 export const TodoProvider = (props) => {
   const [todos, setTodos] = useState([]);
+  const [URL] = useState(Urls.local);
   const [activeTasks, setactiveTasks] = useState(0);
-  const [opened, setOpened] = useState(false);
-  const [active, setActive] = useState({});
+  const [modalOpened, setModelOpened] = useState(false);
+  const [edit, setEdit] = useState({});
 
-  useEffect(() => {
-    const getData = async () => {
-      const URL = 'https://todo-server-xi.now.sh/api/todo';
-      const res = await fetch(URL);
-      const data = await res.json();
-      setTodos(data);
-    };
-    getData();
-  }, []);
   return (
     <TodoContext.Provider
       value={{
         todos,
+        URL,
         setTodos,
         activeTasks,
         setactiveTasks,
-        opened,
-        setOpened,
-        active,
-        setActive,
+        modalOpened,
+        setModelOpened,
+        edit,
+        setEdit,
       }}
     >
       {props.children}

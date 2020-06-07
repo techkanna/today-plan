@@ -1,14 +1,16 @@
 import React, { useContext, useState } from 'react';
-import { TodoContext } from '../globalStates/todoContext';
-const URL = 'https://todo-server-xi.now.sh/api/todo';
+import { TodoContext } from '../../globalStates/todoContext';
 export const Modal = () => {
-  const { todos, setTodos, setOpened, active } = useContext(TodoContext);
-  const [newMsg, setNewMsg] = useState(active.message);
+  const { URL, todos, setTodos, setModelOpened, edit } = useContext(
+    TodoContext
+  );
+
+  const [newMsg, setNewMsg] = useState(edit.message);
 
   const updateMessage = async (e) => {
     e.preventDefault();
 
-    const { _id } = active;
+    const { _id } = edit;
     const message = newMsg;
 
     const copy = [...todos];
@@ -21,20 +23,23 @@ export const Modal = () => {
     });
     const data = await res.json();
 
-    for (let i = 0; i < copy.length; i++) {
-      const todo = todos[i];
-      if (todo._id === _id) {
-        todo.message = data.data.message;
-        break;
+    if (data.data) {
+      for (let i = 0; i < copy.length; i++) {
+        const todo = todos[i];
+        if (todo._id === _id) {
+          todo.message = data.data.message;
+          break;
+        }
       }
     }
+
     setTodos(copy);
-    setOpened(false);
+    setModelOpened(false);
   };
 
   return (
     <div className="modal">
-      <button className="close-btn" onClick={() => setOpened(false)}>
+      <button className="close-btn" onClick={() => setModelOpened(false)}>
         &#935;
       </button>
 

@@ -1,0 +1,61 @@
+.loginPage {
+  /* background-color: #61dbfb; */
+  background-color: #334294fb;
+  min-height: 100vh;
+  padding: 1rem 0;
+}
+
+.loginPage .login-container {
+  width: 80%;
+  margin: 0rem auto;
+}
+
+.loginPage h2 {
+  color: #fff;
+  text-align: center;
+  padding: 2rem 0;
+  font-weight: 500;
+}
+
+.loginPage form {
+  background-color: #fff;
+  border-radius: 0.3rem;
+  padding: 2rem;
+}
+
+.loginPage form .form-field {
+  margin: 0 0 1rem 0;
+}
+
+.loginPage form .form-field label,
+.loginPage form .form-field input {
+  display: block;
+}
+
+.loginPage form .form-field label {
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+
+.loginPage form .form-field input {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+
+.loginPage form input[type='submit'] {
+  width: 100%;
+  background-color: rgb(13, 129, 23);
+  border-radius: 0.3rem;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin: 1rem 0;
+}
+
+.loginPage form p {
+  text-align: center;
+  margin-top: 1rem;
+}

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { TodoContext } from '../globalStates/todoContext';
+import { TodoContext } from '../../globalStates/todoContext';
 let date = new Date().toDateString();
 date = date.slice(0, date.length - 5);
 date = date.slice(0, 3) + ', ' + date.slice(4, date.length);
@@ -16,7 +16,7 @@ export const Header = () => {
         <h4>
           <NavLink
             className="link"
-            to="/"
+            to="/home"
             exact
             activeStyle={{
               fontWeight: 'bold',
@@ -29,7 +29,7 @@ export const Header = () => {
         <h4>
           <NavLink
             className="link"
-            to="/completed"
+            to="/home/completed"
             activeStyle={{
               fontWeight: 'bold',
               color: '#fff',

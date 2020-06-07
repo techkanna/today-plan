@@ -1,33 +1,24 @@
-import React, { useContext } from 'react';
-import './App.css';
-import { TodoContext } from './globalStates/todoContext';
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 
-import { Todos } from './components/Todos';
-import { Header } from './components/Header';
-import { AddTodo } from './components/AddTodo';
-import { Modal } from './components/Modal';
+import { PrivateRouter } from './components/PrivateRouter';
+import { RegisterPage } from './components/RegisterPage';
+import { LoginPage } from './components/LoginPage';
+import { Home } from './components/Home';
 
 function App() {
-  const { opened } = useContext(TodoContext);
   return (
     <>
-      <div className="App">
-        <div className="container">
-          <div className="wrapper">
-            <h3 className="title-logo">
-              <i className="fas fa-list"></i>Todo List
-            </h3>
-            <Header />
-            <AddTodo />
-            <Todos />
-          </div>
-        </div>
-      </div>
-      {opened ? (
-        <div className="modal-wrapper">
-          <Modal />
-        </div>
-      ) : null}
+      <Switch>
+        <Route exact path="/" component={LoginPage} />
+        <PrivateRouter path="/home">
+          <Home />
+        </PrivateRouter>
+        <Route path="/register" component={RegisterPage} />
+        <Route path="/*">
+          <h1>Sorry page not found</h1>
+        </Route>
+      </Switch>
     </>
   );
 }
