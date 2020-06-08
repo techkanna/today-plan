@@ -1,5 +1,6 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { useEffect, useContext } from 'react';
+import { TodoContext } from './globalStates/todoContext';
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 
 import { PrivateRouter } from './components/PrivateRouter';
 import { RegisterPage } from './components/RegisterPage';
@@ -7,6 +8,37 @@ import { LoginPage } from './components/LoginPage';
 import { Home } from './components/Home';
 
 function App() {
+  const { loginURL, setIsAuthenticated, setUser } = useContext(TodoContext);
+
+  let history = useHistory();
+  let location = useLocation();
+
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem('token'));
+    if (token !== null) {
+      const getUser = async () => {
+        try {
+          const res = await fetch(loginURL + '/user', {
+            method: 'Get',
+            headers: { 'x-auth-token': token },
+          });
+          const data = await res.json();
+          if (data) {
+            setIsAuthenticated(true);
+            setUser(data.userName);
+            let { from } = location.state || { from: { pathname: '/home' } };
+            history.replace(from);
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      };
+
+      getUser();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Switch>

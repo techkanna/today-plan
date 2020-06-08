@@ -1,42 +1,93 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import { TodoContext } from '../globalStates/todoContext';
 import './css/RegisterPage.css';
 
 export const RegisterPage = () => {
+  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [cPassword, setcPassword] = useState('');
+
+  const { userURL } = useContext(TodoContext);
+
+  let history = useHistory();
+  let location = useLocation();
+
+  const getUser = async (e) => {
+    e.preventDefault();
+    if (password !== cPassword) {
+      console.log('confirm password not matchs to password');
+      return false;
+    }
+
+    try {
+      const res = await fetch(userURL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName,
+          email,
+          password,
+        }),
+      });
+      const data = await res.json();
+      if (data) {
+        let { from } = location.state || { from: { pathname: '/' } };
+        history.replace(from);
+      }
+    } catch (e) {
+      console.log(e.response.data.msg);
+    }
+  };
   return (
     <div className="registerPage">
       <div className="register-container">
         <h2>Register your account</h2>
-        <form>
+        <form onSubmit={getUser}>
           <div className="form-field">
             <label htmlFor="userName">UserName</label>
             <input
+              required
               type="text"
               id="userName"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
               placeholder="Enter a username..."
             />
           </div>
           <div className="form-field">
             <label htmlFor="email">Email address</label>
             <input
-              type="text"
+              required
+              type="email"
               id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address..."
             />
           </div>
           <div className="form-field">
             <label htmlFor="password">Password</label>
             <input
+              required
               type="password"
               id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password..."
             />
           </div>
           <div className="form-field">
             <label htmlFor="cpassword">Confirm Password</label>
             <input
+              required
               type="password"
               id="cpassword"
+              value={cPassword}
+              onChange={(e) => setcPassword(e.target.value)}
               placeholder="Enter your password again..."
             />
           </div>

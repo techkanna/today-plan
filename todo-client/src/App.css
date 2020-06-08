@@ -35,7 +35,16 @@ body {
   padding: 2rem 3rem 3rem 3rem;
   width: 95%;
   margin: 0 auto;
+  position: relative;
 }
+
+.sign-out {
+  position: absolute;
+  right: 0;
+  top: 2rem;
+  cursor: pointer;
+}
+
 .title-logo {
   color: #00ccff;
   font-weight: 700;

@@ -8,12 +8,15 @@ export const Todo = ({ todo }) => {
   );
 
   const setCompleted = async () => {
+    const token = JSON.parse(localStorage.getItem('token'));
+
     const id = todo._id;
     const copy = [...todos];
     const res = await fetch(URL, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
+        'x-auth-token': token,
       },
       body: JSON.stringify({ _id: id }),
     });
@@ -31,10 +34,14 @@ export const Todo = ({ todo }) => {
   };
 
   const deleteTodo = async () => {
+    const token = JSON.parse(localStorage.getItem('token'));
     const id = todo._id;
     let copy = [...todos];
     const res = await fetch(`${URL}/${id}`, {
       method: 'DELETE',
+      headers: {
+        'x-auth-token': token,
+      },
     });
     const data = await res.json();
     if (data.deleted) {

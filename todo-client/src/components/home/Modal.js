@@ -13,11 +13,14 @@ export const Modal = () => {
     const { _id } = edit;
     const message = newMsg;
 
+    const token = JSON.parse(localStorage.getItem('token'));
+
     const copy = [...todos];
     const res = await fetch(URL, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
+        'x-auth-token': token,
       },
       body: JSON.stringify({ _id, message }),
     });

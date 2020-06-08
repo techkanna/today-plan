@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { TodoContext } from '../globalStates/todoContext';
 import { Route, Redirect } from 'react-router-dom';
-const fakeAuth = {
-  isAuthenticated: true,
-};
+
 export const PrivateRouter = ({ children, ...rest }) => {
+  const { isAuthenticated } = useContext(TodoContext);
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        fakeAuth.isAuthenticated ? (
+        isAuthenticated ? (
           children
         ) : (
           <Redirect

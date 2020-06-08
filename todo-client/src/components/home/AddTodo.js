@@ -8,11 +8,12 @@ export const AddTodo = () => {
 
   const submitHanler = async (e) => {
     e.preventDefault();
-
+    const token = JSON.parse(localStorage.getItem('token'));
     const res = await fetch(URL, {
       method: 'Post',
       headers: {
         'Content-Type': 'application/json',
+        'x-auth-token': token,
       },
       body: JSON.stringify({ message: newTodo }),
     });
