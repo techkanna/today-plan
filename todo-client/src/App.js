@@ -15,6 +15,7 @@ function App() {
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('token'));
+    let mounted = true;
     if (token !== null) {
       const getUser = async () => {
         try {
@@ -23,7 +24,8 @@ function App() {
             headers: { 'x-auth-token': token },
           });
           const data = await res.json();
-          if (data) {
+
+          if (data && mounted) {
             setIsAuthenticated(true);
             setUser(data.userName);
             let { from } = location.state || { from: { pathname: '/home' } };
@@ -36,6 +38,10 @@ function App() {
 
       getUser();
     }
+
+    return () => {
+      mounted = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

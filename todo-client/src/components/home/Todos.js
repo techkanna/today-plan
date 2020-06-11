@@ -7,17 +7,29 @@ export const Todos = () => {
   const { URL, todos, setTodos, setactiveTasks } = useContext(TodoContext);
 
   useEffect(() => {
+    let mounted = true;
     const getData = async () => {
       const res = await fetch(URL);
       const data = await res.json();
-      setTodos(data);
+      if (mounted) {
+        setTodos(data);
+      }
     };
     getData();
+    return () => {
+      mounted = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    setactiveTasks(todos.filter((todo) => !todo.completed).length);
+    let mounted = true;
+    if (mounted) {
+      setactiveTasks(todos.filter((todo) => !todo.completed).length);
+    }
+    return () => {
+      mounted = false;
+    };
   });
 
   return (

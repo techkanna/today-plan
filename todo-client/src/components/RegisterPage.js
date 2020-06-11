@@ -8,6 +8,7 @@ export const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [cPassword, setcPassword] = useState('');
+  const [errors, setErrors] = useState('');
 
   const { userURL } = useContext(TodoContext);
 
@@ -17,7 +18,9 @@ export const RegisterPage = () => {
   const getUser = async (e) => {
     e.preventDefault();
     if (password !== cPassword) {
-      console.log('confirm password not matchs to password');
+      setErrors("passwords doesn't match");
+      setPassword('');
+      setcPassword('');
       return false;
     }
 
@@ -34,12 +37,18 @@ export const RegisterPage = () => {
         }),
       });
       const data = await res.json();
-      if (data) {
+      if (data.user) {
         let { from } = location.state || { from: { pathname: '/' } };
         history.replace(from);
+      } else {
+        setErrors(data.msg);
+        setcPassword('');
+        setPassword('');
+        setUserName('');
+        setEmail('');
       }
     } catch (e) {
-      console.log(e.response.data.msg);
+      setErrors(JSON.stringify(e));
     }
   };
   return (
@@ -91,6 +100,7 @@ export const RegisterPage = () => {
               placeholder="Enter your password again..."
             />
           </div>
+          <p className="errors">{errors}</p>
           <input type="submit" value="Sign up" />
           <p>
             Already have an account? <Link to="/">Sign in.</Link>

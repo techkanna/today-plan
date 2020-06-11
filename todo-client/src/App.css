@@ -35,13 +35,16 @@ body {
   padding: 2rem 3rem 3rem 3rem;
   width: 95%;
   margin: 0 auto;
-  position: relative;
+}
+
+.errors {
+  color: red;
 }
 
 .sign-out {
   position: absolute;
   right: 0;
-  top: 2rem;
+  top: 0;
   cursor: pointer;
 }
 
@@ -49,6 +52,7 @@ body {
   color: #00ccff;
   font-weight: 700;
   margin: 0 0 1rem 0;
+  position: relative;
 }
 .title-logo i {
   font-size: 1rem;

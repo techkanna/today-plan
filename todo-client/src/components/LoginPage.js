@@ -6,6 +6,7 @@ import './css/LoginPage.css';
 export const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState('');
 
   const { loginURL, setUser, setIsAuthenticated } = useContext(TodoContext);
 
@@ -33,11 +34,19 @@ export const LoginPage = () => {
         setIsAuthenticated(true);
         let { from } = location.state || { from: { pathname: '/home' } };
         history.replace(from);
+      } else {
+        setErrors(data.msg);
+        setEmail('');
+        setPassword('');
       }
     } catch (e) {
       console.log(e);
+      setErrors(JSON.stringify(e));
+      setEmail('');
+      setPassword('');
     }
   };
+
   return (
     <div className="loginPage">
       <div className="login-container">
@@ -47,7 +56,7 @@ export const LoginPage = () => {
             <label htmlFor="login-email">Email address</label>
             <input
               required
-              type="text"
+              type="email"
               id="login-email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -65,6 +74,7 @@ export const LoginPage = () => {
               placeholder="Enter your password..."
             />
           </div>
+          <p className="errors">{errors}</p>
           <input type="submit" value="Sign up" />
           <p>
             New user? <Link to="/register">Create an account.</Link>

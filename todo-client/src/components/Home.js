@@ -30,10 +30,10 @@ export const Home = () => {
           <div className="wrapper">
             <h3 className="title-logo">
               <i className="fas fa-list"></i> {user}'s Todo List
+              <span className="sign-out" onClick={signOut}>
+                <i className="fas fa-sign-out-alt"></i>
+              </span>
             </h3>
-            <span className="sign-out" onClick={signOut}>
-              <i className="fas fa-sign-out-alt"></i>
-            </span>
             <Header />
             <AddTodo />
             <Todos />
