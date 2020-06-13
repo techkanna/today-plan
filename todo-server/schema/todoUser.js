@@ -12,6 +12,19 @@ const userSchema = new Schema({
     type: String,
     require: true,
   },
+  todos: [
+    {
+      completed: { type: Boolean, default: false },
+      message: {
+        type: String,
+        required: true,
+      },
+      time: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
   register_date: {
     type: Date,
     default: Date.now,

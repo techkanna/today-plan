@@ -1,29 +1,33 @@
 const Router = require('express').Router();
-const TodoModel = require('../schema/todoSchema');
+const User = require('../schema/todoUser');
 const auth = require('../middleware/auth');
 
 // @route   GET /api/todo/
 // @desc    get all todos
 // @access  Public
-Router.get('/', (_, res) => {
-  TodoModel.find((err, todos) => {
-    if (err) return err;
-    res.json(todos);
-  });
+Router.get('/', auth, (req, res) => {
+  User.findById(req.user.id)
+    .select('todos')
+    .then((user) => {
+      res.json(user.todos);
+    });
 });
 
 // @route   POST /api/todo/
 // @desc    Create a todo
 // @access  PRIVATE
 Router.post('/', auth, (req, res) => {
-  const newtodo = new TodoModel({
+  const newtodo = {
     completed: false,
     message: req.body.message,
-  });
-  newtodo.save((err, todo) => {
-    if (err) return err;
-    res.status(201).json(todo);
-  });
+  };
+  User.findById(req.user.id)
+    .select('todos')
+    .then((user) => {
+      user.todos.push(newtodo);
+      user.save();
+      res.status(201).json(user.todos[user.todos.length - 1]);
+    });
 });
 
 // @route   PATCH /api/todo/
@@ -32,23 +36,20 @@ Router.post('/', auth, (req, res) => {
 Router.patch('/', auth, (req, res) => {
   const { _id, message } = req.body;
 
-  if (!message) {
-    TodoModel.findById(_id, (err, todo) => {
-      if (err) return err;
-      todo.completed = !todo.completed;
-      todo.save();
-      res.json({ updated: true, data: todo });
+  User.findById(req.user.id)
+    .select('todos')
+    .then((user) => {
+      let todo = user.todos.find((todo) => todo._id == _id);
+      if (todo) {
+        if (message) {
+          todo.message = message;
+        } else {
+          todo.completed = !todo.completed;
+        }
+        user.save();
+        res.json({ updated: true, data: todo });
+      }
     });
-  }
-
-  if (message) {
-    TodoModel.findById(_id, (err, todo) => {
-      if (err) return err;
-      todo.message = message;
-      todo.save();
-      res.json({ updated: true, data: todo });
-    });
-  }
 });
 
 // @route   DELETE /api/todo/:id
@@ -57,10 +58,13 @@ Router.patch('/', auth, (req, res) => {
 Router.delete('/:id/', auth, (req, res) => {
   const { id } = req.params;
 
-  TodoModel.findByIdAndDelete({ _id: id }, (err, _) => {
-    if (err) return err;
-    res.json({ deleted: true, msg: 'deleted successfully' });
-  });
+  User.findById(req.user.id)
+    .select('todos')
+    .then((user) => {
+      user.todos = user.todos.filter((todo) => todo.id != id);
+      user.save();
+      res.json({ deleted: true, msg: 'deleted successfully' });
+    });
 });
 
 module.exports = Router;

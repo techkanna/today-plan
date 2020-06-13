@@ -9,7 +9,13 @@ export const Todos = () => {
   useEffect(() => {
     let mounted = true;
     const getData = async () => {
-      const res = await fetch(URL);
+      const token = JSON.parse(localStorage.getItem('token'));
+      const res = await fetch(URL, {
+        method: 'Get',
+        headers: {
+          'x-auth-token': token,
+        },
+      });
       const data = await res.json();
       if (mounted) {
         setTodos(data);
