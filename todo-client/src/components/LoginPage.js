@@ -8,9 +8,7 @@ export const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState('');
 
-  const { loginURL, setUser, setIsAuthenticated, globalError } = useContext(
-    TodoContext
-  );
+  const { loginURL, setUser, setIsAuthenticated } = useContext(TodoContext);
 
   let history = useHistory();
   let location = useLocation();
@@ -43,7 +41,7 @@ export const LoginPage = () => {
       }
     } catch (e) {
       console.log(e);
-      setErrors(JSON.stringify(e));
+      setErrors('sorry! something went wrong.');
       setEmail('');
       setPassword('');
     }
@@ -77,7 +75,6 @@ export const LoginPage = () => {
             />
           </div>
           <p className="errors">{errors}</p>
-          <p className="errors">{globalError}</p>
           <input type="submit" value="Sign up" />
           <p>
             New user? <Link to="/register">Create an account.</Link>

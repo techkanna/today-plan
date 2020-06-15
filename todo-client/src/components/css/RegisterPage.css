@@ -3,11 +3,25 @@
   background-color: #334294fb;
   min-height: 100vh;
   padding: 1rem 0;
+  background: url('../../assets/register.jpeg') center center/cover;
+}
+
+.registerPage::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000000a9;
+  z-index: 1;
 }
 
 .registerPage .register-container {
   width: 80%;
   margin: 0rem auto;
+  position: relative;
+  z-index: 2;
 }
 
 .registerPage h2 {

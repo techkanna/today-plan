@@ -8,9 +8,7 @@ import { LoginPage } from './components/LoginPage';
 import { Home } from './components/Home';
 
 function App() {
-  const { loginURL, setGlobalError, setIsAuthenticated, setUser } = useContext(
-    TodoContext
-  );
+  const { loginURL, setIsAuthenticated, setUser } = useContext(TodoContext);
 
   let history = useHistory();
   let location = useLocation();
@@ -31,8 +29,6 @@ function App() {
             setUser(data.userName);
             let { from } = location.state || { from: { pathname: '/home' } };
             history.replace(from);
-          } else {
-            setGlobalError(data.msg);
           }
         } catch (e) {
           console.log(e);

@@ -1,13 +1,27 @@
 .loginPage {
   /* background-color: #61dbfb; */
-  background-color: #334294fb;
+  /* background-color: #334294fb; */
+  background: url('../../assets/login.jpeg') center center/cover;
   min-height: 100vh;
   padding: 1rem 0;
+  position: relative;
+}
+.loginPage::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000000a9;
+  z-index: 1;
 }
 
 .loginPage .login-container {
   width: 80%;
   margin: 0rem auto;
+  position: relative;
+  z-index: 2;
 }
 
 .loginPage h2 {

@@ -16,7 +16,6 @@ export const TodoProvider = (props) => {
   const [modalOpened, setModelOpened] = useState(false);
   const [edit, setEdit] = useState({});
   const [user, setUser] = useState('');
-  const [globalError, setGlobalError] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
@@ -37,8 +36,6 @@ export const TodoProvider = (props) => {
         setUser,
         isAuthenticated,
         setIsAuthenticated,
-        globalError,
-        setGlobalError,
       }}
     >
       {props.children}
