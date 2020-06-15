@@ -9,13 +9,14 @@ const Urls = {
 
 export const TodoProvider = (props) => {
   const [todos, setTodos] = useState([]);
-  const [URL] = useState(Urls.local + 'todo');
-  const [userURL] = useState(Urls.local + 'user');
-  const [loginURL] = useState(Urls.local + 'auth');
+  const [URL] = useState(Urls.remote + 'todo/');
+  const [userURL] = useState(Urls.remote + 'user/');
+  const [loginURL] = useState(Urls.remote + 'auth');
   const [activeTasks, setactiveTasks] = useState(0);
   const [modalOpened, setModelOpened] = useState(false);
   const [edit, setEdit] = useState({});
   const [user, setUser] = useState('');
+  const [globalError, setGlobalError] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
@@ -36,6 +37,8 @@ export const TodoProvider = (props) => {
         setUser,
         isAuthenticated,
         setIsAuthenticated,
+        globalError,
+        setGlobalError,
       }}
     >
       {props.children}

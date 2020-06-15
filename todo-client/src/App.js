@@ -8,7 +8,9 @@ import { LoginPage } from './components/LoginPage';
 import { Home } from './components/Home';
 
 function App() {
-  const { loginURL, setIsAuthenticated, setUser } = useContext(TodoContext);
+  const { loginURL, setGlobalError, setIsAuthenticated, setUser } = useContext(
+    TodoContext
+  );
 
   let history = useHistory();
   let location = useLocation();
@@ -24,12 +26,13 @@ function App() {
             headers: { 'x-auth-token': token },
           });
           const data = await res.json();
-
-          if (data && mounted) {
+          if (data.userName && mounted) {
             setIsAuthenticated(true);
             setUser(data.userName);
             let { from } = location.state || { from: { pathname: '/home' } };
             history.replace(from);
+          } else {
+            setGlobalError(data.msg);
           }
         } catch (e) {
           console.log(e);

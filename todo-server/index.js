@@ -9,10 +9,10 @@ const connectDb = require('./middleware/connectDb');
 const app = express();
 
 // middlewares
+app.use(cors());
 app.use(helmet());
 app.use(morgan('tiny'));
 app.use(express.json());
-app.use(cors());
 
 // db connection
 connectDb();
