@@ -37,7 +37,7 @@ export const Todo = ({ todo }) => {
     const token = JSON.parse(localStorage.getItem('token'));
     const id = todo._id;
     let copy = [...todos];
-    const res = await fetch(`${URL}/${id}`, {
+    const res = await fetch(`${URL}${id}`, {
       method: 'DELETE',
       headers: {
         'x-auth-token': token,
