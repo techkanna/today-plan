@@ -75,7 +75,7 @@ export const LoginPage = () => {
             />
           </div>
           <p className="errors">{errors}</p>
-          <input type="submit" value="Sign up" />
+          <input type="submit" value="Sign in" />
           <p>
             New user? <Link to="/register">Create an account.</Link>
           </p>
